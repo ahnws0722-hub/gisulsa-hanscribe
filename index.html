@@ -1,0 +1,703 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#1f3a5f">
+<title>건설안전기술사 하루 한 문제 필사</title>
+<style>
+:root{
+  --ink:#1b2430; --sub:#5a6573; --line:#d6dbe1; --bg:#f4f6f8; --card:#ffffff;
+  --navy:#1f3a5f; --accent:#2f6fb3; --ok:#2e7d32; --warn:#b3261e; --paper:#fffef8; --rule:#c9d6e6;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Malgun Gothic","맑은 고딕","Apple SD Gothic Neo","Noto Sans KR",sans-serif;font-size:15px;line-height:1.6}
+header{background:var(--navy);color:#fff;padding:14px 20px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
+header h1{margin:0;font-size:19px}
+header .stat{font-size:13px;opacity:.95}
+.wrap{display:grid;grid-template-columns:270px 1fr;gap:16px;padding:16px;max-width:1300px;margin:0 auto}
+aside,.card{background:var(--card);border:1px solid var(--line);border-radius:10px}
+aside{padding:12px;align-self:start;position:sticky;top:12px;max-height:calc(100vh - 24px);overflow:auto}
+aside h2{font-size:14px;margin:4px 4px 8px;color:var(--navy)}
+.qitem{display:flex;gap:8px;align-items:flex-start;padding:8px;border-radius:8px;cursor:pointer;font-size:13.5px;border:1px solid transparent}
+.qitem:hover{background:#eef3f9}
+.qitem.active{background:#e3edf8;border-color:#b7cde6}
+.qitem .no{flex:0 0 auto;font-weight:700;color:var(--accent);min-width:44px}
+.qitem .done{color:var(--ok);font-weight:700}
+.tag{display:inline-block;font-size:11.5px;padding:1px 8px;border-radius:20px;border:1px solid var(--line);color:var(--sub);margin-right:4px}
+.tag.t1{border-color:#9cc3e8;color:#235a8f}
+.tag.t2{border-color:#e4b98d;color:#8a4b12}
+.tag.own{border-color:#a5d6a7;color:#2e7d32}
+main{display:flex;flex-direction:column;gap:14px;min-width:0}
+.card{padding:16px 18px}
+.notice{background:#fff7e6;border:1px solid #f0d39b;border-radius:10px;padding:10px 14px;font-size:13.5px}
+.today{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+.btn{border:1px solid var(--accent);background:var(--accent);color:#fff;border-radius:8px;padding:10px 14px;font-size:14px;cursor:pointer;font-family:inherit;min-height:44px}
+.btn.ghost{background:#fff;color:var(--accent)}
+.btn.gray{background:#fff;color:var(--sub);border-color:var(--line)}
+.btn.ok{background:var(--ok);border-color:var(--ok)}
+.btn:disabled{opacity:.5;cursor:default}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.qtitle{font-size:17px;font-weight:700;margin:6px 0 2px}
+.answer{background:var(--paper);border:1px solid #e4dfcc;border-radius:8px;padding:18px 22px;position:relative}
+.answer.hidden .ans-body{filter:blur(7px);user-select:none;pointer-events:none}
+.answer h3{font-size:15.5px;margin:16px 0 6px;color:var(--navy);border-bottom:1px solid #e9e4d2;padding-bottom:3px}
+.answer h3:first-child{margin-top:0}
+.answer ul{margin:4px 0 8px;padding-left:20px}
+.answer li{margin:2px 0}
+.answer table{border-collapse:collapse;width:100%;margin:6px 0 10px;font-size:14px}
+.answer th,.answer td{border:1px solid #bfb9a4;padding:5px 8px;vertical-align:top}
+.answer th{background:#f1ecd9}
+.fig{margin:10px 0 12px;text-align:center}
+.fig svg{max-width:100%;height:auto;background:#fff;border:1px solid #e4dfcc;border-radius:6px}
+.fig .cap{font-size:12.5px;color:var(--sub);margin-top:2px}
+.src{font-size:12.5px;color:var(--sub);border-top:1px dashed #d8d2bd;margin-top:14px;padding-top:8px}
+.end{text-align:right;font-weight:700;margin-top:6px}
+textarea,input[type=text],input[type=date],select{width:100%;font-family:inherit;font-size:15px;border:1px solid var(--line);border-radius:8px;padding:10px;background:#fff;color:var(--ink)}
+textarea.copy{min-height:320px;line-height:30px;background:repeating-linear-gradient(#fff 0 29px,var(--rule) 29px 30px);padding:0 12px;background-attachment:local}
+.meter{height:10px;border-radius:6px;background:#e6eaef;overflow:hidden;flex:1;min-width:120px}
+.meter>div{height:100%;background:var(--accent);width:0}
+.small{font-size:12.5px;color:var(--sub)}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.35);display:none;align-items:center;justify-content:center;padding:16px;z-index:9}
+.modal.show{display:flex}
+.modal .box{background:#fff;border-radius:12px;max-width:760px;width:100%;max-height:92vh;overflow:auto;padding:18px}
+label{font-size:13px;font-weight:700;color:var(--navy);display:block;margin:10px 0 4px}
+#printArea{display:none}
+@media (max-width:900px){.wrap{grid-template-columns:1fr;padding:12px;gap:12px}aside{position:static;max-height:38vh;-webkit-overflow-scrolling:touch}.split{grid-template-columns:1fr}header{padding:12px 14px}header h1{font-size:17px}.qitem{padding:10px;min-height:44px}.meter{min-width:0;flex:1 1 100%}textarea,input[type=text],input[type=date],select{font-size:16px}}
+@media print{
+  body{background:#fff}
+  header,aside,.noprint,.modal{display:none!important}
+  .wrap{display:block;padding:0}
+  main>*:not(#printArea){display:none!important}
+  #printArea{display:block}
+  .ppage{page-break-after:always;padding:6mm 4mm}
+  .ppage:last-child{page-break-after:auto}
+  .ppage h2{font-size:15px;margin:0 0 6px}
+  .lined{border:1px solid #999;min-height:250mm;background:repeating-linear-gradient(#fff 0 9.5mm,#bbb 9.5mm 10mm)}
+  .answer{border:none;padding:0}
+  .answer.hidden .ans-body{filter:none}
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>건설안전기술사 · 하루 한 문제 필사</h1>
+  <div class="stat" id="hdrStat"></div>
+</header>
+
+<div class="wrap">
+  <aside class="noprint">
+    <h2>문제 목록</h2>
+    <div id="qlist"></div>
+    <div style="margin-top:10px" class="row">
+      <button class="btn ghost" style="width:100%" onclick="openAdd()">+ 내 문제·답안 추가</button>
+      <button class="btn gray" style="width:100%" onclick="exportData()">기록 백업(내려받기)</button>
+      <button class="btn gray" style="width:100%" onclick="document.getElementById('importFile').click()">기록 불러오기</button>
+      <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(event)">
+    </div>
+  </aside>
+
+  <main>
+    <div class="notice noprint">
+      <b>꼭 읽어 주세요.</b> 기본 수록 답안은 <b>AI가 작성한 참고답안</b>입니다. 한국산업인력공단의 공식 모범답안이 아닙니다(공단이 기술사 서술형 모범답안을 공개한 자료는 확인하지 못했습니다).
+      문제는 기출 빈출 주제를 바탕으로 만든 <b>연습 문제</b>이며, 실제 회차의 원문과 다를 수 있습니다. 법령 수치는 필사 전에 국가법령정보센터의 최신 조문으로 확인하세요.
+      실제 기출 문제는 Q-Net에서 확인한 뒤 <b>[+ 내 문제·답안 추가]</b>로 넣을 수 있습니다.
+    </div>
+
+    <div class="card today noprint">
+      <div>
+        <div class="small" id="todayLabel"></div>
+        <div style="font-weight:700;font-size:16px" id="todayText"></div>
+      </div>
+      <div class="row">
+        <button class="btn" onclick="goToday()">오늘의 문제 열기</button>
+      </div>
+    </div>
+
+    <div class="card" id="viewer"></div>
+
+    <div class="card noprint" id="copyCard">
+      <div class="row" style="justify-content:space-between">
+        <b style="color:var(--navy)">필사 칸 (키보드로 따라 쓰기)</b>
+        <span class="small">손으로 쓰려면 위의 [답안지 인쇄]를 누르세요</span>
+      </div>
+      <div class="row" style="margin:8px 0">
+        <div class="meter"><div id="meterBar"></div></div>
+        <span class="small" id="meterText"></span>
+      </div>
+      <textarea class="copy" id="copyBox" placeholder="여기에 답안을 보면서 그대로 옮겨 쓰세요. 쓴 내용은 이 컴퓨터의 브라우저에 자동 저장됩니다." oninput="saveCopy()"></textarea>
+      <div class="split" style="margin-top:10px">
+        <div>
+          <label>오늘 외운 핵심 키워드 3개</label>
+          <input type="text" id="kw" placeholder="예: 상부난간대 90cm, 발끝막이판 10cm, 100kg" oninput="saveCopy()">
+        </div>
+        <div>
+          <label>헷갈린 점 · 확인할 것</label>
+          <input type="text" id="memo" placeholder="예: 중간난간대 기준 최신 조문 확인" oninput="saveCopy()">
+        </div>
+      </div>
+      <div class="row" style="margin-top:12px;justify-content:flex-end">
+        <button class="btn ok" id="doneBtn" onclick="toggleDone()">필사 완료로 표시</button>
+      </div>
+    </div>
+
+    <div id="printArea"></div>
+  </main>
+</div>
+
+<div class="modal" id="addModal">
+  <div class="box">
+    <h2 style="margin:0 0 4px;color:var(--navy);font-size:17px">내 문제·답안 추가</h2>
+    <div class="small">Q-Net 기출 문제 원문, 보스가 직접 정리한 답안을 넣으세요. 다른 사람의 유료 교재·학원 답안을 그대로 옮겨 넣으면 저작권 문제가 생길 수 있습니다.</div>
+    <label>회차·교시 (예: 제○○회 2교시)</label>
+    <input type="text" id="aRound">
+    <label>유형</label>
+    <select id="aType"><option>단답형</option><option>논술형</option></select>
+    <label>문제</label>
+    <textarea id="aQ" rows="2"></textarea>
+    <label>답안 (줄바꿈 그대로 표시됩니다)</label>
+    <textarea id="aA" rows="12"></textarea>
+    <label>출처 메모 (예: Q-Net 공개문제, 내 정리)</label>
+    <input type="text" id="aSrc">
+    <div class="row" style="justify-content:flex-end;margin-top:14px">
+      <button class="btn gray" onclick="closeAdd()">취소</button>
+      <button class="btn" onclick="saveAdd()">저장</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ===== 기본 수록 문제 (AI 작성 참고답안) ===== */
+const S = (s)=>`<div class="fig">${s}</div>`;
+const BASE = [
+{
+ id:"b01", type:"단답형", subject:"안전관리론",
+ q:"하인리히(H. W. Heinrich)의 재해발생 비율(1:29:300)과 도미노 이론을 설명하시오.",
+ html:`
+<h3>1. 개요</h3>
+<ul><li>하인리히는 산업재해 사례 분석으로 재해의 구성 비율과 사고 발생의 연쇄 과정(도미노 이론)을 제시함</li>
+<li>핵심: 직접원인인 <b>불안전한 행동·불안전한 상태</b>를 제거하면 재해를 막을 수 있음</li></ul>
+<h3>2. 재해 구성 비율 (1 : 29 : 300)</h3>
+${S(`<svg viewBox="0 0 520 210" xmlns="http://www.w3.org/2000/svg" font-family="Malgun Gothic,sans-serif" font-size="13">
+<polygon points="260,20 300,70 220,70" fill="#f4c7c3" stroke="#333"/>
+<polygon points="220,70 300,70 360,130 160,130" fill="#fde9b8" stroke="#333"/>
+<polygon points="160,130 360,130 440,195 80,195" fill="#d9ead3" stroke="#333"/>
+<text x="260" y="58" text-anchor="middle" font-weight="700">1</text>
+<text x="260" y="108" text-anchor="middle" font-weight="700">29</text>
+<text x="260" y="170" text-anchor="middle" font-weight="700">300</text>
+<line x1="305" y1="45" x2="400" y2="45" stroke="#888"/><text x="405" y="49">중상해(사망 포함)</text>
+<line x1="340" y1="100" x2="400" y2="100" stroke="#888"/><text x="405" y="104">경상해</text>
+<line x1="420" y1="165" x2="440" y2="165" stroke="#888"/><text x="445" y="169">무상해 사고</text>
+<text x="20" y="30" fill="#555">총 330회</text>
+</svg>`)}<div class="fig"><div class="cap">[그림 1] 하인리히 재해 구성 비율</div></div>
+<ul><li>같은 원인의 사고 330건 중 중상 1, 경상 29, 무상해사고 300건 비율로 발생</li>
+<li>시사점: 무상해사고(아차사고) 단계에서 원인을 관리해야 중대재해를 예방함</li></ul>
+<h3>3. 도미노 이론 (사고 연쇄 5단계)</h3>
+${S(`<svg viewBox="0 0 520 170" xmlns="http://www.w3.org/2000/svg" font-family="Malgun Gothic,sans-serif" font-size="12">
+<g stroke="#333" stroke-width="1.5">
+<rect x="30" y="40" width="40" height="80" fill="#e3edf8" transform="rotate(12 50 120)"/>
+<rect x="120" y="40" width="40" height="80" fill="#e3edf8" transform="rotate(12 140 120)"/>
+<rect x="300" y="40" width="40" height="80" fill="#e3edf8"/>
+<rect x="390" y="40" width="40" height="80" fill="#e3edf8"/>
+</g>
+<rect x="210" y="40" width="40" height="80" fill="none" stroke="#b3261e" stroke-dasharray="5 4" stroke-width="2"/>
+<text x="230" y="85" text-anchor="middle" fill="#b3261e" font-size="20" font-weight="700">✕</text>
+<text x="50" y="145" text-anchor="middle">①사회적 환경</text><text x="50" y="160" text-anchor="middle">·유전 요소</text>
+<text x="140" y="145" text-anchor="middle">②개인적 결함</text>
+<text x="230" y="145" text-anchor="middle" fill="#b3261e" font-weight="700">③불안전 행동</text><text x="230" y="160" text-anchor="middle" fill="#b3261e" font-weight="700">·상태 (제거)</text>
+<text x="320" y="145" text-anchor="middle">④사고</text>
+<text x="410" y="145" text-anchor="middle">⑤재해(상해)</text>
+<text x="300" y="28" fill="#2e7d32" font-weight="700">→ 연쇄 차단: 사고·재해 발생하지 않음</text>
+</svg>`)}<div class="fig"><div class="cap">[그림 2] 3단계(불안전 행동·상태) 제거로 연쇄 차단</div></div>
+<ul><li>5개 도미노가 차례로 넘어지며 재해 발생 → 중간 3단계를 제거하면 사고·재해로 이어지지 않음</li>
+<li>직접원인 구성: 불안전한 행동 88%, 불안전한 상태 10%, 불가항력 2% (하인리히 분석)</li></ul>
+<h3>4. 결론</h3>
+<ul><li>현장에서는 아차사고 보고, TBM, 위험성평가로 3단계(불안전 행동·상태)를 지속 관리해야 함</li>
+<li>버드(F. Bird)의 수정 도미노 이론은 근본원인인 <b>관리 부족</b>을 강조하므로 함께 기술하면 좋음</li></ul>
+<div class="end">"끝"</div>`},
+{
+ id:"b02", type:"단답형", subject:"안전관리론",
+ q:"재해통계 지표 중 도수율과 강도율의 정의, 산출식, 계산 예를 설명하시오.",
+ html:`
+<h3>1. 개요</h3>
+<ul><li>재해통계 지표는 재해 발생 빈도와 심각성을 수치로 나타내어 사업장 간 비교, 안전대책 효과 평가에 사용함</li></ul>
+<h3>2. 산출식</h3>
+<table><tr><th style="width:22%">구분</th><th>산출식</th><th style="width:28%">의미</th></tr>
+<tr><td>도수율(빈도율)</td><td>(재해건수 ÷ 연근로총시간수) × 1,000,000</td><td>100만 근로시간당 재해 건수</td></tr>
+<tr><td>강도율</td><td>(총요양근로손실일수 ÷ 연근로총시간수) × 1,000</td><td>1,000 근로시간당 손실일수</td></tr>
+<tr><td>연천인율</td><td>(연간 재해자수 ÷ 연평균 근로자수) × 1,000</td><td>근로자 1,000명당 재해자수</td></tr></table>
+<ul><li>연천인율 ≒ 도수율 × 2.4 (1인당 연 2,400시간 근로 가정)</li>
+<li>사망·영구 전노동불능(신체장해 1~3급) 근로손실일수: 7,500일로 산정</li></ul>
+<h3>3. 계산 예</h3>
+<ul><li>조건: 근로자 500명, 1일 8시간, 연 300일 근무, 재해 6건, 근로손실일수 900일</li>
+<li>연근로총시간수 = 500 × 8 × 300 = <b>1,200,000시간</b></li>
+<li>도수율 = 6 ÷ 1,200,000 × 1,000,000 = <b>5</b></li>
+<li>강도율 = 900 ÷ 1,200,000 × 1,000 = <b>0.75</b></li></ul>
+<h3>4. 활용 시 유의사항</h3>
+<ul><li>도수율은 빈도, 강도율은 심각성을 나타내므로 두 지표를 함께 분석</li>
+<li>소규모 사업장은 재해 1건으로 수치가 크게 변하므로 다년간 추이로 판단</li></ul>
+<div class="end">"끝"</div>`},
+{
+ id:"b03", type:"논술형", subject:"공종별 건설안전기술",
+ q:"건설현장 추락재해의 발생 원인과 방지대책을 안전난간과 추락방호망을 중심으로 설명하시오.",
+ html:`
+<h3>Ⅰ. 개요</h3>
+<ul><li>추락재해는 건설업 사망재해 중 가장 큰 비중을 차지하는 재해 유형으로, 비계·개구부·지붕·단부 작업에서 주로 발생함</li>
+<li>작업발판 설치를 우선으로 하고, 곤란한 경우 안전난간·추락방호망·안전대 순서로 대책을 적용해야 함</li></ul>
+<h3>Ⅱ. 추락재해 발생 원인</h3>
+<table><tr><th style="width:18%">구분</th><th>원인</th></tr>
+<tr><td>인적</td><td>안전대 미착용·미체결, 무리한 동작, 작업 서두름</td></tr>
+<tr><td>물적</td><td>안전난간 미설치·임의 해체, 개구부 덮개 미고정, 작업발판 고정 불량</td></tr>
+<tr><td>관리적</td><td>작업계획 미흡, 안전점검 미실시, 교육 부족, 감시자 미배치</td></tr></table>
+<h3>Ⅲ. 방지대책</h3>
+<b>1. 안전난간 설치 (산업안전보건기준에 관한 규칙 제13조)</b>
+${S(`<svg viewBox="0 0 520 230" xmlns="http://www.w3.org/2000/svg" font-family="Malgun Gothic,sans-serif" font-size="12">
+<rect x="40" y="190" width="380" height="14" fill="#ccc" stroke="#333"/>
+<text x="60" y="222">작업 바닥면</text>
+<g stroke="#333" stroke-width="3"><line x1="80" y1="190" x2="80" y2="60"/><line x1="380" y1="190" x2="380" y2="60"/></g>
+<line x1="70" y1="60" x2="390" y2="60" stroke="#1f3a5f" stroke-width="5"/>
+<line x1="70" y1="125" x2="390" y2="125" stroke="#2f6fb3" stroke-width="4"/>
+<rect x="70" y="172" width="320" height="18" fill="#fde9b8" stroke="#333"/>
+<text x="200" y="52" fill="#1f3a5f" font-weight="700">상부난간대</text>
+<text x="200" y="118" fill="#2f6fb3" font-weight="700">중간난간대</text>
+<text x="160" y="185">발끝막이판 (높이 10cm 이상)</text>
+<text x="88" y="100">난간기둥</text>
+<g stroke="#b3261e" fill="#b3261e"><line x1="450" y1="60" x2="450" y2="190"/><polygon points="445,68 455,68 450,60"/><polygon points="445,182 455,182 450,190"/></g>
+<text x="456" y="130" fill="#b3261e">90cm 이상</text>
+<text x="230" y="20" fill="#333">임의 방향 100kg 이상 하중에 견딜 것</text>
+</svg>`)}<div class="fig"><div class="cap">[그림 1] 안전난간 구조</div></div>
+<ul><li>구성: 상부난간대, 중간난간대, 발끝막이판, 난간기둥</li>
+<li>상부난간대: 바닥면 등으로부터 90cm 이상 지점에 설치, 120cm 이하이면 중간난간대는 상부난간대와 바닥면의 중간에 설치</li>
+<li>120cm를 넘으면 중간난간대를 2단 이상 균등하게 설치하고 상하 간격은 60cm 이하</li>
+<li>발끝막이판: 바닥면으로부터 10cm 이상 높이 유지</li>
+<li>임의 방향으로 움직이는 100kg 이상의 하중에 견딜 수 있는 튼튼한 구조</li></ul>
+<b>2. 추락방호망 설치 (같은 규칙 제42조)</b>
+${S(`<svg viewBox="0 0 520 210" xmlns="http://www.w3.org/2000/svg" font-family="Malgun Gothic,sans-serif" font-size="12">
+<rect x="40" y="20" width="60" height="180" fill="#eee" stroke="#333"/>
+<text x="48" y="110">건축물</text>
+<rect x="100" y="30" width="200" height="10" fill="#ccc" stroke="#333"/>
+<text x="150" y="25">작업면</text>
+<path d="M100 150 Q 230 175 360 150" fill="none" stroke="#2f6fb3" stroke-width="3" stroke-dasharray="6 3"/>
+<text x="205" y="190" fill="#2f6fb3" font-weight="700">추락방호망</text>
+<g stroke="#b3261e" fill="#b3261e">
+<line x1="320" y1="40" x2="320" y2="150"/><polygon points="315,48 325,48 320,40"/><polygon points="315,142 325,142 320,150"/>
+<line x1="100" y1="120" x2="360" y2="120"/><polygon points="108,115 108,125 100,120"/><polygon points="352,115 352,125 360,120"/></g>
+<text x="326" y="95" fill="#b3261e">수직거리 10m 이하</text>
+<text x="160" y="113" fill="#b3261e">벽면에서 내민 길이 3m 이상</text>
+<text x="380" y="160" fill="#555">처짐: 짧은 변 길이의</text><text x="380" y="176" fill="#555">12% 이상</text>
+</svg>`)}<div class="fig"><div class="cap">[그림 2] 추락방호망 설치 기준</div></div>
+<ul><li>작업면으로부터 망의 설치지점까지 수직거리는 10m를 초과하지 않을 것</li>
+<li>수평으로 설치하고, 망의 처짐은 짧은 변 길이의 12% 이상</li>
+<li>건축물 바깥쪽 설치 시 내민 길이는 벽면으로부터 3m 이상</li>
+<li>안전인증 제품 사용, 정기 점검으로 손상·오염 확인</li></ul>
+<b>3. 기타 대책</b>
+<ul><li>개구부: 덮개를 뒤집히거나 떨어지지 않게 고정하고 '개구부 주의' 표시</li>
+<li>안전대: 부착설비(안전대 걸이) 설치 후 착용·체결 확인</li>
+<li>관리: 작업 전 TBM, 안전난간 임의 해체 금지·복구 확인, 관리감독자 순회 점검</li></ul>
+<h3>Ⅳ. 결론</h3>
+<ul><li>추락재해 예방은 '작업발판 → 안전난간 → 추락방호망 → 안전대' 순으로 공학적 대책을 우선 적용해야 함</li>
+<li>설계 단계부터 단부 안전난간·영구 고정 앵커를 반영하면(DFS) 시공 중 위험을 근본적으로 줄일 수 있음</li></ul>
+<div class="end">"끝"</div>`},
+{
+ id:"b04", type:"논술형", subject:"공종별 건설안전기술",
+ q:"강관비계의 조립 시 준수사항과 붕괴 방지대책을 설명하시오.",
+ html:`
+<h3>Ⅰ. 개요</h3>
+<ul><li>강관비계는 고소작업의 통로·작업발판으로 사용되며, 기둥 간격·벽이음·가새가 부실하면 전도·붕괴로 대형 재해가 발생함</li></ul>
+<h3>Ⅱ. 강관비계 구조 기준</h3>
+${S(`<svg viewBox="0 0 520 250" xmlns="http://www.w3.org/2000/svg" font-family="Malgun Gothic,sans-serif" font-size="12">
+<rect x="20" y="20" width="40" height="210" fill="#eee" stroke="#333"/><text x="22" y="130" font-size="11">건축물</text>
+<line x1="15" y1="230" x2="440" y2="230" stroke="#333" stroke-width="2"/>
+<g stroke="#1f3a5f" stroke-width="3"><line x1="110" y1="30" x2="110" y2="225"/><line x1="220" y1="30" x2="220" y2="225"/><line x1="330" y1="30" x2="330" y2="225"/></g>
+<g stroke="#2f6fb3" stroke-width="2"><line x1="100" y1="185" x2="340" y2="185"/><line x1="100" y1="125" x2="340" y2="125"/><line x1="100" y1="65" x2="340" y2="65"/></g>
+<line x1="110" y1="225" x2="330" y2="65" stroke="#8a4b12" stroke-width="2"/>
+<line x1="60" y1="125" x2="110" y2="125" stroke="#2e7d32" stroke-width="3"/><text x="62" y="118" fill="#2e7d32" font-size="11">벽이음</text>
+<rect x="100" y="225" width="20" height="6" fill="#555"/><rect x="210" y="225" width="20" height="6" fill="#555"/><rect x="320" y="225" width="20" height="6" fill="#555"/>
+<g fill="#b3261e" stroke="#b3261e"><line x1="110" y1="20" x2="220" y2="20"/></g>
+<text x="120" y="15" fill="#b3261e">띠장 방향 기둥간격 1.85m 이하</text>
+<line x1="360" y1="185" x2="360" y2="125" stroke="#b3261e"/><text x="366" y="160" fill="#b3261e">띠장 간격</text><text x="366" y="175" fill="#b3261e">2.0m 이하</text>
+<text x="230" y="140" fill="#8a4b12">가새</text>
+<text x="120" y="248" fill="#555">밑둥잡이·깔판·받침철물</text>
+<text x="360" y="60" fill="#555">장선 방향 1.5m 이하</text>
+<text x="360" y="90" fill="#555">기둥간 적재하중</text><text x="360" y="105" fill="#555">400kg 이하</text>
+</svg>`)}<div class="fig"><div class="cap">[그림 1] 강관비계 정면도(주요 기준)</div></div>
+<table><tr><th style="width:30%">항목</th><th>기준 (산업안전보건기준에 관한 규칙 제59조·제60조)</th></tr>
+<tr><td>비계기둥 간격</td><td>띠장 방향 1.85m 이하, 장선 방향 1.5m 이하</td></tr>
+<tr><td>띠장 간격</td><td>2.0m 이하</td></tr>
+<tr><td>기둥 보강</td><td>비계기둥 제일 윗부분으로부터 31m 되는 지점 밑부분은 2개의 강관으로 묶어 세움</td></tr>
+<tr><td>적재하중</td><td>비계기둥 간 400kg 이하</td></tr>
+<tr><td>벽이음</td><td>수직·수평 방향 5m 이하 간격으로 구조체에 연결</td></tr>
+<tr><td>기초</td><td>밑받침철물·깔판·깔목 사용, 밑둥잡이 설치로 침하·활동 방지</td></tr></table>
+<h3>Ⅲ. 조립 시 준수사항</h3>
+<ul><li>조립도 작성 후 작업, 관리감독자 지휘 아래 순서대로 조립</li>
+<li>강관 접속부·교차부는 전용 철물로 견고하게 연결</li>
+<li>교차가새로 보강하여 좌굴·변형 방지</li>
+<li>작업발판: 폭 40cm 이상, 발판 재료 간 틈 3cm 이하, 둘 이상 지지물에 고정</li>
+<li>악천후(강풍·폭우·폭설) 시 작업 중지, 이후 작업 전 점검</li></ul>
+<h3>Ⅳ. 붕괴 원인과 방지대책</h3>
+<table><tr><th style="width:40%">붕괴 원인</th><th>방지대책</th></tr>
+<tr><td>벽이음 누락·임의 해체</td><td>벽이음 간격 준수, 해체 시 대체 벽이음 선설치</td></tr>
+<tr><td>기초 침하·지반 연약</td><td>지반 다짐, 깔판·받침철물 설치, 배수 처리</td></tr>
+<tr><td>과다 적재·자재 집중 적치</td><td>적재하중 표지, 자재 분산 적치</td></tr>
+<tr><td>가새 미설치·연결 불량</td><td>교차가새 설치, 클램프 체결 점검</td></tr>
+<tr><td>분진망·방호선반 풍하중</td><td>풍하중을 고려한 구조검토, 강풍 시 망 해체·결속 보강</td></tr></table>
+<h3>Ⅴ. 결론</h3>
+<ul><li>강관비계는 설치 후에도 벽이음 해체·자재 적치로 상태가 계속 변하므로, 작업 전 점검과 해체 순서 관리가 핵심임</li>
+<li>가능하면 구조 성능이 확보된 시스템비계 사용을 검토함</li></ul>
+<div class="end">"끝"</div>`},
+{
+ id:"b05", type:"논술형", subject:"공종별 건설안전기술",
+ q:"콘크리트 타설 중 거푸집·동바리 붕괴의 원인과 방지대책을 설명하시오.",
+ html:`
+<h3>Ⅰ. 개요</h3>
+<ul><li>거푸집·동바리는 콘크리트가 경화될 때까지 하중을 지지하는 가설구조물이며, 타설 중 붕괴하면 다수 인명피해로 이어짐</li>
+<li>구조검토 → 조립도 → 조립 점검 → 타설 관리 단계별로 관리해야 함</li></ul>
+<h3>Ⅱ. 붕괴 원인</h3>
+<table><tr><th style="width:20%">단계</th><th>원인</th></tr>
+<tr><td>설계</td><td>구조검토 미실시, 타설 하중·충격하중 과소 평가</td></tr>
+<tr><td>조립</td><td>수평연결재 누락, 동바리 이음 불량, 받침 지반 침하, 수직도 불량</td></tr>
+<tr><td>타설</td><td>한쪽으로 치우친 집중 타설(편심하중), 과도한 타설 속도, 장비 진동</td></tr>
+<tr><td>관리</td><td>타설 중 감시자 미배치, 이상 징후 시 대피 체계 없음</td></tr></table>
+<h3>Ⅲ. 방지대책</h3>
+<b>1. 구조검토와 조립도</b>
+<ul><li>고정하중·작업하중·충격하중 등을 고려한 구조검토 후 조립도 작성</li>
+<li>조립도에 동바리·멍에 등 부재의 재질, 단면 규격, 설치 간격, 이음 방법 명시</li></ul>
+<b>2. 동바리 조립 기준 (파이프 서포트)</b>
+${S(`<svg viewBox="0 0 520 240" xmlns="http://www.w3.org/2000/svg" font-family="Malgun Gothic,sans-serif" font-size="12">
+<rect x="40" y="20" width="420" height="16" fill="#d9d9d9" stroke="#333"/><text x="200" y="32">슬래브 거푸집</text>
+<rect x="40" y="36" width="420" height="10" fill="#fde9b8" stroke="#333"/><text x="470" y="45" font-size="11">멍에</text>
+<g stroke="#1f3a5f" stroke-width="4"><line x1="90" y1="46" x2="90" y2="210"/><line x1="200" y1="46" x2="200" y2="210"/><line x1="310" y1="46" x2="310" y2="210"/><line x1="420" y1="46" x2="420" y2="210"/></g>
+<g stroke="#2e7d32" stroke-width="3"><line x1="80" y1="100" x2="430" y2="100"/><line x1="80" y1="155" x2="430" y2="155"/></g>
+<text x="160" y="94" fill="#2e7d32" font-weight="700">수평연결재(2개 방향)</text>
+<rect x="30" y="210" width="440" height="12" fill="#a1887f" stroke="#333"/><text x="200" y="236">깔목·받침철물 (침하 방지)</text>
+<g stroke="#b3261e"><line x1="475" y1="100" x2="475" y2="155"/></g><text x="480" y="132" fill="#b3261e" font-size="11">2m 이내</text>
+<text x="230" y="185" fill="#555">동바리</text>
+</svg>`)}<div class="fig"><div class="cap">[그림 1] 파이프 서포트 동바리와 수평연결재</div></div>
+<ul><li>파이프 서포트를 3개 이상 이어서 사용하지 않을 것</li>
+<li>이어서 사용할 때는 4개 이상의 볼트 또는 전용철물로 연결</li>
+<li>높이가 3.5m를 초과하면 높이 2m 이내마다 수평연결재를 2개 방향으로 설치하고 변위 방지</li>
+<li>받침목·깔판으로 침하 방지, 상하 고정으로 미끄러짐 방지</li></ul>
+<b>3. 콘크리트 타설 관리</b>
+<ul><li>편심하중이 생기지 않도록 골고루 분산 타설, 타설 속도 준수</li>
+<li>타설 중 거푸집·동바리 변형·침하 감시자 배치, 이상 시 즉시 작업 중지·대피</li>
+<li>타설 전 조립 상태 점검(관리감독자), 체크리스트로 기록</li></ul>
+<h3>Ⅳ. 결론</h3>
+<ul><li>동바리 붕괴는 대부분 수평연결재 누락·편심 타설 등 기본 기준 미준수에서 발생함</li>
+<li>층고가 높은 구간은 시스템 동바리 적용과 구조검토 확인을 의무화하는 것이 바람직함</li>
+<li>※ 조문 번호와 세부 수치는 최신 「산업안전보건기준에 관한 규칙」으로 확인 후 필사</li></ul>
+<div class="end">"끝"</div>`},
+{
+ id:"b06", type:"논술형", subject:"공종별 건설안전기술",
+ q:"도심지 굴착공사에서 흙막이 계측관리의 목적, 계측기 종류와 설치 위치, 관리 방법을 설명하시오.",
+ html:`
+<h3>Ⅰ. 개요</h3>
+<ul><li>계측관리는 굴착에 따른 흙막이 벽체·지반·인접 구조물의 거동을 측정하여 붕괴 징후를 미리 파악하는 관리 기법임</li></ul>
+<h3>Ⅱ. 계측관리 목적</h3>
+<ul><li>흙막이 및 주변 지반의 안전성 확인</li><li>설계 가정과 실제 거동 비교로 설계 검증</li>
+<li>인접 건물·도로·지하매설물 피해 예방</li><li>이상 거동 시 신속한 대책 수립(정보화 시공)</li></ul>
+<h3>Ⅲ. 계측기 종류와 설치 위치</h3>
+${S(`<svg viewBox="0 0 520 260" xmlns="http://www.w3.org/2000/svg" font-family="Malgun Gothic,sans-serif" font-size="11.5">
+<rect x="10" y="60" width="500" height="190" fill="#efe6d8"/>
+<rect x="250" y="60" width="260" height="150" fill="#fff" stroke="#999"/>
+<text x="350" y="200" fill="#777">굴착 공간</text>
+<rect x="244" y="40" width="8" height="215" fill="#555"/><text x="200" y="35">흙막이 벽체</text>
+<line x1="252" y1="110" x2="510" y2="110" stroke="#1f3a5f" stroke-width="5"/><text x="380" y="104" fill="#1f3a5f">버팀보</text>
+<rect x="30" y="10" width="60" height="50" fill="#ddd" stroke="#333"/><text x="34" y="38">인접 건물</text>
+<g font-weight="700">
+<circle cx="60" cy="18" r="5" fill="#b3261e"/><text x="95" y="20" fill="#b3261e">①건물경사계·균열측정기</text>
+<line x1="200" y1="62" x2="200" y2="240" stroke="#2f6fb3" stroke-width="3" stroke-dasharray="4 3"/><text x="120" y="250" fill="#2f6fb3">②지중경사계</text>
+<line x1="160" y1="62" x2="160" y2="200" stroke="#2e7d32" stroke-width="3"/><circle cx="160" cy="200" r="4" fill="#2e7d32"/><text x="105" y="215" fill="#2e7d32">③지하수위계</text>
+<rect x="125" y="54" width="12" height="8" fill="#8a4b12"/><text x="110" y="78" fill="#8a4b12">④지표침하계</text>
+<rect x="300" y="104" width="18" height="12" fill="#ffb300" stroke="#333"/><text x="292" y="132" fill="#8a4b12">⑤하중계·변형률계</text>
+<circle cx="225" cy="160" r="5" fill="#7b1fa2"/><text x="166" y="178" fill="#7b1fa2">⑥간극수압계</text>
+</g>
+</svg>`)}<div class="fig"><div class="cap">[그림 1] 흙막이 계측기 배치 단면도</div></div>
+<table><tr><th style="width:26%">계측기</th><th style="width:32%">설치 위치</th><th>측정 항목</th></tr>
+<tr><td>지중경사계</td><td>흙막이 벽체 배면 지반</td><td>깊이별 수평 변위</td></tr>
+<tr><td>지하수위계</td><td>흙막이 배면</td><td>지하수위 변화</td></tr>
+<tr><td>간극수압계</td><td>배면 연약층</td><td>간극수압 변화</td></tr>
+<tr><td>하중계</td><td>버팀보·어스앵커 두부</td><td>축력·인장력</td></tr>
+<tr><td>변형률계</td><td>버팀보·띠장</td><td>부재 응력</td></tr>
+<tr><td>건물경사계·균열측정기</td><td>인접 구조물</td><td>기울기·균열 폭</td></tr>
+<tr><td>지표침하계</td><td>배면 지표·도로</td><td>지표 침하량</td></tr></table>
+<h3>Ⅳ. 계측 관리 방법</h3>
+<ul><li>굴착 전 설치하여 초기치 확보 (초기치가 없으면 변화량 판단 불가)</li>
+<li>설계도서의 관리기준치를 1차(주의)·2차(경고) 단계로 정하고 단계별 조치 사전 결정</li>
+<li>굴착 진행 중·강우 후에는 측정 빈도를 높이고, 결과를 시간에 따른 그래프로 분석</li>
+<li>기준 초과 시: 굴착 중지 → 원인 분석 → 보강(버팀보 추가, 그라우팅 등) → 재개 여부 판단</li>
+<li>계측기 손상 방지 보호 조치, 측정 담당자 지정</li></ul>
+<h3>Ⅴ. 결론</h3>
+<ul><li>계측관리는 측정 자체보다 '기준 초과 시 누가 무엇을 하는지'가 정해져 있어야 효과가 있음</li>
+<li>자동화 계측과 경보 시스템을 적용하면 야간·휴일 급변에도 대응할 수 있음</li></ul>
+<div class="end">"끝"</div>`},
+{
+ id:"b07", type:"단답형", subject:"공종별 건설안전기술",
+ q:"밀폐공간 작업 시 적정공기의 기준과 작업 전 안전조치를 설명하시오.",
+ html:`
+<h3>1. 개요</h3>
+<ul><li>밀폐공간은 환기가 불충분하여 산소결핍·유해가스로 질식·중독 위험이 있는 장소(맨홀, 탱크, 피트, 정화조 등)</li>
+<li>구조하러 들어간 사람까지 연쇄 재해를 입는 경우가 많아 사전 조치가 중요함</li></ul>
+<h3>2. 적정공기 기준 (산업안전보건기준에 관한 규칙 제618조)</h3>
+${S(`<svg viewBox="0 0 520 120" xmlns="http://www.w3.org/2000/svg" font-family="Malgun Gothic,sans-serif" font-size="12">
+<rect x="40" y="40" width="160" height="26" fill="#f4c7c3"/><rect x="200" y="40" width="110" height="26" fill="#c6efce"/><rect x="310" y="40" width="160" height="26" fill="#f4c7c3"/>
+<rect x="40" y="40" width="430" height="26" fill="none" stroke="#333"/>
+<text x="120" y="58" text-anchor="middle">산소결핍 위험</text><text x="255" y="58" text-anchor="middle" font-weight="700">적정</text><text x="390" y="58" text-anchor="middle">산소과잉(화재 위험)</text>
+<line x1="200" y1="32" x2="200" y2="74" stroke="#b3261e" stroke-width="2"/><line x1="310" y1="32" x2="310" y2="74" stroke="#b3261e" stroke-width="2"/>
+<text x="200" y="92" text-anchor="middle" fill="#b3261e" font-weight="700">18%</text><text x="310" y="92" text-anchor="middle" fill="#b3261e" font-weight="700">23.5%</text>
+<text x="40" y="22" fill="#333">산소 농도</text>
+</svg>`)}<div class="fig"><div class="cap">[그림 1] 산소 농도 적정 범위(18% 이상 23.5% 미만)</div></div>
+<table><tr><th>항목</th><th>기준</th></tr>
+<tr><td>산소</td><td>18% 이상 23.5% 미만</td></tr><tr><td>탄산가스</td><td>1.5% 미만</td></tr>
+<tr><td>일산화탄소</td><td>30ppm 미만</td></tr><tr><td>황화수소</td><td>10ppm 미만</td></tr></table>
+<h3>3. 작업 전 안전조치</h3>
+<ul><li>밀폐공간 작업 프로그램 수립·시행, 작업 허가 절차 운영</li>
+<li>작업 시작 전 산소·유해가스 농도 측정 → 적정공기 확인 후 출입</li>
+<li>작업 전·작업 중 지속 환기</li><li>외부 감시인 배치, 출입 인원 점검</li>
+<li>송기마스크·안전대·구조용 장비 비치, 출입금지 표지 게시</li>
+<li>사고 발생 시 무호흡 구조 금지, 보호구 착용자만 구조</li></ul>
+<h3>4. 결론</h3>
+<ul><li>"측정 → 환기 → 감시인 → 보호구" 순서를 매 작업마다 반복하는 것이 질식재해 예방의 핵심임</li></ul>
+<div class="end">"끝"</div>`},
+{
+ id:"b08", type:"논술형", subject:"건설기계",
+ q:"타워크레인의 설치·해체 작업 시 재해 유형과 안전대책을 설명하시오.",
+ html:`
+<h3>Ⅰ. 개요</h3>
+<ul><li>타워크레인 설치·해체·상승(텔레스코핑) 작업은 고소에서 대형 부재를 다루므로 붕괴·추락·낙하 재해 위험이 큼</li></ul>
+<h3>Ⅱ. 타워크레인 구성</h3>
+${S(`<svg viewBox="0 0 520 260" xmlns="http://www.w3.org/2000/svg" font-family="Malgun Gothic,sans-serif" font-size="12">
+<rect x="150" y="225" width="80" height="22" fill="#bbb" stroke="#333"/><text x="240" y="242">기초(앵커)</text>
+<g stroke="#1f3a5f" stroke-width="2" fill="none"><rect x="175" y="70" width="30" height="155"/>
+<line x1="175" y1="90" x2="205" y2="110"/><line x1="205" y1="110" x2="175" y2="130"/><line x1="175" y1="130" x2="205" y2="150"/><line x1="205" y1="150" x2="175" y2="170"/><line x1="175" y1="170" x2="205" y2="190"/><line x1="205" y1="190" x2="175" y2="210"/></g>
+<text x="215" y="160">마스트</text>
+<rect x="168" y="70" width="44" height="26" fill="#fde9b8" stroke="#8a4b12"/><text x="220" y="88" fill="#8a4b12">텔레스코핑 케이지</text>
+<rect x="178" y="52" width="24" height="18" fill="#ddd" stroke="#333"/><text x="105" y="65">운전실</text>
+<line x1="190" y1="50" x2="480" y2="50" stroke="#1f3a5f" stroke-width="4"/><text x="380" y="44">지브(Jib)</text>
+<line x1="60" y1="50" x2="190" y2="50" stroke="#1f3a5f" stroke-width="4"/><text x="70" y="44">카운터 지브</text>
+<rect x="60" y="54" width="40" height="22" fill="#777"/><text x="56" y="92" font-size="11">카운터웨이트</text>
+<line x1="190" y1="20" x2="190" y2="50" stroke="#333" stroke-width="3"/><line x1="190" y1="20" x2="420" y2="50" stroke="#555"/><line x1="190" y1="20" x2="80" y2="50" stroke="#555"/>
+<line x1="400" y1="50" x2="400" y2="140" stroke="#555"/><polygon points="393,140 407,140 400,152" fill="#555"/><text x="410" y="140">훅</text>
+<line x1="205" y1="120" x2="290" y2="120" stroke="#2e7d32" stroke-width="3"/><rect x="290" y="105" width="18" height="30" fill="#eee" stroke="#333"/><text x="250" y="114" fill="#2e7d32" font-size="11">벽체 지지</text>
+</svg>`)}<div class="fig"><div class="cap">[그림 1] 타워크레인 주요 구성</div></div>
+<h3>Ⅲ. 주요 재해 유형</h3>
+<table><tr><th style="width:24%">유형</th><th>원인</th></tr>
+<tr><td>붕괴·전도</td><td>텔레스코핑 중 균형 불량, 마스트 볼트·핀 체결 불량, 기초 구조 부족</td></tr>
+<tr><td>추락</td><td>고소 작업 중 안전대 미체결, 작업발판 미설치</td></tr>
+<tr><td>낙하·비래</td><td>부재·공구 낙하, 인양물 결속 불량</td></tr>
+<tr><td>충돌</td><td>복수 크레인 작업반경 간섭</td></tr></table>
+<h3>Ⅳ. 안전대책</h3>
+<b>1. 작업 전</b>
+<ul><li>작업계획서 작성(작업 순서, 인원, 장비, 기상 조건), 작업지휘자 지정</li>
+<li>기초 구조검토, 설치 위치 지반 지지력 확인</li><li>교육을 이수한 작업자 배치, 작업 전 TBM</li></ul>
+<b>2. 작업 중</b>
+<ul><li>순간풍속 10m/s 초과 시 설치·수리·점검·해체 작업 중지 (안전보건규칙 제37조)</li>
+<li>순간풍속 20m/s 초과 시 운전 작업 중지</li>
+<li>텔레스코핑 중 지브 방향·균형 유지, 선회·인양 금지</li>
+<li>마스트 볼트·핀 규정 토크로 체결 후 확인, 작업 반경 출입 통제·신호수 배치</li>
+<li>고소 작업 시 안전대 체결, 공구 낙하 방지 끈 사용</li></ul>
+<b>3. 작업 후·사용 중</b>
+<ul><li>설치 후 검사, 정기검사 실시, 벽체 지지·와이어 지지 상태 점검</li>
+<li>복수 크레인 사용 시 충돌 방지 장치·작업 구역 조정</li></ul>
+<h3>Ⅴ. 결론</h3>
+<ul><li>타워크레인 사고의 대부분은 설치·해체·상승 단계에서 발생하므로, 이 단계의 작업계획·기상 판단·체결 확인을 문서로 관리해야 함</li></ul>
+<div class="end">"끝"</div>`},
+{
+ id:"b09", type:"단답형", subject:"산업심리·교육",
+ q:"휴먼에러(Human Error)를 스웨인(Swain)의 심리적 분류에 따라 설명하시오.",
+ html:`
+<h3>1. 개요</h3>
+<ul><li>휴먼에러는 시스템이 요구하는 행동에서 벗어난 사람의 실수로, 재해의 주요 원인임</li>
+<li>스웨인(Swain)은 작업자가 한 행동의 결과를 기준으로 분류함</li></ul>
+<h3>2. 심리적 분류</h3>
+${S(`<svg viewBox="0 0 520 200" xmlns="http://www.w3.org/2000/svg" font-family="Malgun Gothic,sans-serif" font-size="12">
+<rect x="200" y="10" width="120" height="30" rx="6" fill="#1f3a5f"/><text x="260" y="30" text-anchor="middle" fill="#fff" font-weight="700">휴먼에러</text>
+<g stroke="#555"><line x1="260" y1="40" x2="260" y2="60"/><line x1="80" y1="60" x2="440" y2="60"/><line x1="80" y1="60" x2="80" y2="75"/><line x1="260" y1="60" x2="260" y2="75"/><line x1="440" y1="60" x2="440" y2="75"/></g>
+<rect x="20" y="75" width="120" height="40" rx="6" fill="#e3edf8" stroke="#2f6fb3"/><text x="80" y="93" text-anchor="middle" font-weight="700">생략 에러</text><text x="80" y="108" text-anchor="middle" font-size="11">Omission</text>
+<rect x="200" y="75" width="120" height="40" rx="6" fill="#e3edf8" stroke="#2f6fb3"/><text x="260" y="93" text-anchor="middle" font-weight="700">수행 에러</text><text x="260" y="108" text-anchor="middle" font-size="11">Commission</text>
+<rect x="380" y="75" width="120" height="40" rx="6" fill="#e3edf8" stroke="#2f6fb3"/><text x="440" y="93" text-anchor="middle" font-weight="700">불필요 수행 에러</text><text x="440" y="108" text-anchor="middle" font-size="11">Extraneous</text>
+<g stroke="#555"><line x1="260" y1="115" x2="260" y2="130"/><line x1="140" y1="130" x2="380" y2="130"/>
+<line x1="140" y1="130" x2="140" y2="145"/><line x1="220" y1="130" x2="220" y2="145"/><line x1="300" y1="130" x2="300" y2="145"/><line x1="380" y1="130" x2="380" y2="145"/></g>
+<g font-size="11.5"><rect x="105" y="145" width="70" height="26" fill="#fff8e6" stroke="#8a4b12"/><text x="140" y="162" text-anchor="middle">선택 착오</text>
+<rect x="185" y="145" width="70" height="26" fill="#fff8e6" stroke="#8a4b12"/><text x="220" y="162" text-anchor="middle">순서 착오</text>
+<rect x="265" y="145" width="70" height="26" fill="#fff8e6" stroke="#8a4b12"/><text x="300" y="162" text-anchor="middle">시간 착오</text>
+<rect x="345" y="145" width="70" height="26" fill="#fff8e6" stroke="#8a4b12"/><text x="380" y="162" text-anchor="middle">정성적 착오</text></g>
+</svg>`)}<div class="fig"><div class="cap">[그림 1] 스웨인의 휴먼에러 심리적 분류</div></div>
+<table><tr><th style="width:28%">구분</th><th>내용 (예시)</th></tr>
+<tr><td>생략 에러</td><td>필요한 작업·절차를 수행하지 않음 (안전대 체결 생략)</td></tr>
+<tr><td>수행 에러</td><td>작업을 했으나 잘못 수행 — 선택·순서·시간·정성적 착오 (다른 밸브 조작)</td></tr>
+<tr><td>불필요 수행 에러</td><td>불필요한 작업을 추가로 수행 (작업 중 장난·다른 설비 만지기)</td></tr></table>
+<ul><li>원인 수준 분류도 함께 기술: 1차 에러(작업자 자신), 2차 에러(작업 조건), 지시 에러(지시·관리)</li></ul>
+<h3>3. 예방대책</h3>
+<ul><li>Fool-proof·Fail-safe 설계로 실수해도 사고로 이어지지 않게 함</li>
+<li>작업 표준화·체크리스트, 지적확인</li><li>적정 작업량·휴식으로 피로 관리, 교육·훈련</li></ul>
+<div class="end">"끝"</div>`},
+{
+ id:"b10", type:"논술형", subject:"안전관리론",
+ q:"사업장 위험성평가의 절차와 실시 시기, 평가 방법을 설명하시오.",
+ html:`
+<h3>Ⅰ. 개요</h3>
+<ul><li>위험성평가는 사업주가 스스로 유해·위험요인을 파악하고 위험성 수준을 결정하여 감소대책을 수립·실행하는 과정임 (산업안전보건법 제36조)</li>
+<li>근로자 참여가 필수이며, 자기규율 예방체계의 핵심 수단임</li></ul>
+<h3>Ⅱ. 위험성평가 절차</h3>
+${S(`<svg viewBox="0 0 520 110" xmlns="http://www.w3.org/2000/svg" font-family="Malgun Gothic,sans-serif" font-size="11.5">
+<g fill="#e3edf8" stroke="#2f6fb3">
+<rect x="5" y="30" width="92" height="50" rx="6"/><rect x="108" y="30" width="92" height="50" rx="6"/><rect x="211" y="30" width="92" height="50" rx="6"/><rect x="314" y="30" width="92" height="50" rx="6"/><rect x="417" y="30" width="98" height="50" rx="6"/></g>
+<g text-anchor="middle" font-weight="700">
+<text x="51" y="52">①사전준비</text><text x="51" y="68" font-weight="400" font-size="10.5">계획·자료 수집</text>
+<text x="154" y="52">②유해·위험</text><text x="154" y="68">요인 파악</text>
+<text x="257" y="52">③위험성</text><text x="257" y="68">결정</text>
+<text x="360" y="52">④감소대책</text><text x="360" y="68">수립·실행</text>
+<text x="466" y="52">⑤공유 및</text><text x="466" y="68">기록·보존</text></g>
+<g fill="#2f6fb3"><polygon points="97,55 106,50 106,60"/><polygon points="200,55 209,50 209,60"/><polygon points="303,55 312,50 312,60"/><polygon points="406,55 415,50 415,60"/></g>
+<text x="10" y="20" fill="#555">근로자 참여 (전 단계)</text>
+<text x="10" y="100" fill="#555">※ 고용노동부 「사업장 위험성평가에 관한 지침」 — 최신 고시로 단계 명칭 확인</text>
+</svg>`)}<div class="fig"><div class="cap">[그림 1] 위험성평가 절차</div></div>
+<ul><li>사전준비: 평가 실시 규정, 대상 공정·작업, 안전보건 정보(작업표준, 재해 사례 등) 수집</li>
+<li>유해·위험요인 파악: 순회점검, 근로자 면담·제안, 체크리스트 활용</li>
+<li>위험성 결정: 허용 가능 여부 판단</li>
+<li>감소대책: 제거 → 대체 → 공학적 대책 → 관리적 대책 → 보호구 순으로 우선 적용</li>
+<li>공유·기록: 결과를 근로자에게 알리고(TBM 등), 기록을 보존</li></ul>
+<h3>Ⅲ. 실시 시기</h3>
+<table><tr><th style="width:22%">구분</th><th>내용</th></tr>
+<tr><td>최초평가</td><td>사업 개시 후 일정 기간 내 착수</td></tr>
+<tr><td>수시평가</td><td>설비 도입·변경, 작업방법 변경, 중대산업사고·재해 발생 등 계기 발생 시</td></tr>
+<tr><td>정기평가</td><td>최초평가 후 매년 재검토</td></tr>
+<tr><td>상시평가</td><td>매월 위험요인 발굴, 주간 회의, 매일 TBM 공유 체계를 갖추면 수시·정기평가 갈음 가능</td></tr></table>
+<h3>Ⅳ. 평가 방법</h3>
+${S(`<svg viewBox="0 0 520 190" xmlns="http://www.w3.org/2000/svg" font-family="Malgun Gothic,sans-serif" font-size="12">
+<text x="20" y="18" fill="#333" font-weight="700">빈도·강도법 위험성 매트릭스 (예: 3×3)</text>
+<g stroke="#fff" stroke-width="2">
+<rect x="110" y="30" width="80" height="45" fill="#fde9b8"/><rect x="190" y="30" width="80" height="45" fill="#f4c7c3"/><rect x="270" y="30" width="80" height="45" fill="#f4c7c3"/>
+<rect x="110" y="75" width="80" height="45" fill="#c6efce"/><rect x="190" y="75" width="80" height="45" fill="#fde9b8"/><rect x="270" y="75" width="80" height="45" fill="#f4c7c3"/>
+<rect x="110" y="120" width="80" height="45" fill="#c6efce"/><rect x="190" y="120" width="80" height="45" fill="#c6efce"/><rect x="270" y="120" width="80" height="45" fill="#fde9b8"/></g>
+<g text-anchor="middle"><text x="150" y="57">3</text><text x="230" y="57">6</text><text x="310" y="57">9</text>
+<text x="150" y="102">2</text><text x="230" y="102">4</text><text x="310" y="102">6</text>
+<text x="150" y="147">1</text><text x="230" y="147">2</text><text x="310" y="147">3</text>
+<text x="150" y="182">강도 1</text><text x="230" y="182">강도 2</text><text x="310" y="182">강도 3</text></g>
+<text x="60" y="57">빈도 3</text><text x="60" y="102">빈도 2</text><text x="60" y="147">빈도 1</text>
+<rect x="380" y="40" width="16" height="16" fill="#f4c7c3"/><text x="402" y="53">높음: 즉시 개선</text>
+<rect x="380" y="70" width="16" height="16" fill="#fde9b8"/><text x="402" y="83">보통: 계획 개선</text>
+<rect x="380" y="100" width="16" height="16" fill="#c6efce"/><text x="402" y="113">낮음: 현 상태 관리</text>
+<text x="380" y="140" fill="#555" font-size="11">위험성 = 빈도 × 강도</text>
+</svg>`)}<div class="fig"><div class="cap">[그림 2] 빈도·강도법 매트릭스 예시 (사업장이 기준 결정)</div></div>
+<ul><li>빈도·강도법: 가능성(빈도)과 중대성(강도)을 곱하거나 조합하여 판단</li>
+<li>체크리스트법: 항목별 적합·부적합 확인</li>
+<li>위험성 수준 3단계 판단법: 상·중·하로 간단히 판단</li>
+<li>핵심요인 기술법(OPS): 소규모 사업장용, 핵심 질문에 답하는 방식</li></ul>
+<h3>Ⅴ. 결론</h3>
+<ul><li>위험성평가는 서류 작성이 아니라 근로자가 참여해 위험을 찾고 개선을 확인하는 반복 활동이어야 함</li>
+<li>건설현장은 공정 변화가 빠르므로 상시평가와 TBM 연계가 효과적임</li>
+<li>※ 실시 시기·방법의 세부 내용은 최신 고용노동부 고시로 확인 후 필사</li></ul>
+<div class="end">"끝"</div>`}
+];
+
+/* ===== 저장소 (브라우저 내 저장) ===== */
+const KEY="pe_copy_v1";
+let st={done:{},copy:{},custom:[],start:null};
+function load(){try{const s=localStorage.getItem(KEY);if(s)st=Object.assign(st,JSON.parse(s));}catch(e){}}
+function persist(){try{localStorage.setItem(KEY,JSON.stringify(st));}catch(e){}}
+load();
+if(!st.start){st.start=todayStr();persist();}
+
+function todayStr(){const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
+function all(){return BASE.concat(st.custom.map(c=>({id:c.id,type:c.type,subject:c.round||"내 문제",q:c.q,own:true,src:c.src,
+  html:`<div style="white-space:pre-wrap">${esc(c.a)}</div><div class="src">출처: ${esc(c.src||"미입력")}</div>`})));}
+
+let cur=null, hidden=false;
+
+function todayPick(){
+  const L=all(), t=todayStr();
+  const doneToday=L.find(x=>st.done[x.id]===t);
+  if(doneToday) return {q:doneToday,finished:true};
+  const next=L.find(x=>!st.done[x.id]);
+  return {q:next||null,finished:false};
+}
+function renderList(){
+  const L=all();
+  document.getElementById("qlist").innerHTML=L.map((x,i)=>`
+   <div class="qitem ${cur&&cur.id===x.id?"active":""}" onclick="openQ('${x.id}')">
+     <span class="no">${st.done[x.id]?'<span class="done">✔</span>':''} ${i+1}</span>
+     <span><span class="tag ${x.own?"own":(x.type==="단답형"?"t1":"t2")}">${x.own?"내 문제":x.type}</span><br>${esc(x.q.length>38?x.q.slice(0,38)+"…":x.q)}</span>
+   </div>`).join("");
+  const n=L.length, d=L.filter(x=>st.done[x.id]).length;
+  document.getElementById("hdrStat").textContent=`필사 완료 ${d} / ${n}문제 · 시작일 ${st.start}`;
+  const p=todayPick();
+  document.getElementById("todayLabel").textContent=`오늘 ${todayStr()}`;
+  document.getElementById("todayText").textContent= p.finished?`오늘 분량 완료! (${L.indexOf(p.q)+1}번) 내일 다음 문제가 열립니다.`
+     : p.q?`오늘의 문제: ${L.indexOf(p.q)+1}번 — ${p.q.type}`:`준비된 문제를 모두 필사했습니다. [+ 내 문제·답안 추가]로 문제를 넣으세요.`;
+}
+function goToday(){const p=todayPick();if(p.q)openQ(p.q.id);}
+function openQ(id){
+  cur=all().find(x=>x.id===id); if(!cur)return;
+  const L=all(), idx=L.indexOf(cur)+1;
+  document.getElementById("viewer").innerHTML=`
+   <div class="row" style="justify-content:space-between">
+     <div><span class="tag ${cur.own?"own":(cur.type==="단답형"?"t1":"t2")}">${cur.type}</span><span class="tag">${esc(cur.subject)}</span>
+       ${st.done[cur.id]?`<span class="tag" style="border-color:#a5d6a7;color:#2e7d32">완료 ${st.done[cur.id]}</span>`:""}</div>
+     <div class="row noprint">
+       <button class="btn gray" onclick="toggleHide()">${hidden?"답안 보이기":"답안 가리기(암기 확인)"}</button>
+       <button class="btn ghost" onclick="printQ()">답안지 인쇄</button>
+       ${cur.own?`<button class="btn gray" onclick="delOwn('${cur.id}')">삭제</button>`:""}
+     </div>
+   </div>
+   <div class="qtitle">문제 ${idx}. ${esc(cur.q)}</div>
+   <div class="small" style="margin-bottom:10px">${cur.own?"보스가 추가한 문제입니다.":"AI 작성 참고답안 · 공단 공식 모범답안 아님 · 법령 수치는 최신 조문 확인"}</div>
+   <div class="answer ${hidden?"hidden":""}"><div class="ans-body">${cur.html}</div></div>`;
+  const c=st.copy[cur.id]||{};
+  document.getElementById("copyBox").value=c.text||"";
+  document.getElementById("kw").value=c.kw||"";
+  document.getElementById("memo").value=c.memo||"";
+  updMeter(); updDone(); renderList();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+function refLen(){const tmp=document.createElement("div");tmp.innerHTML=cur.html;tmp.querySelectorAll("svg").forEach(s=>s.remove());return tmp.textContent.replace(/\s/g,"").length;}
+function updMeter(){
+  if(!cur)return;
+  const n=(document.getElementById("copyBox").value||"").replace(/\s/g,"").length, r=refLen();
+  const p=Math.min(100,Math.round(n/r*100));
+  document.getElementById("meterBar").style.width=p+"%";
+  document.getElementById("meterText").textContent=`${n.toLocaleString()} / 약 ${r.toLocaleString()}자 (${p}%) · 공백 제외`;
+}
+function saveCopy(){if(!cur)return;st.copy[cur.id]={text:copyBox.value,kw:kw.value,memo:memo.value};persist();updMeter();}
+function updDone(){const b=document.getElementById("doneBtn");b.textContent=st.done[cur.id]?"완료 취소":"필사 완료로 표시";b.className=st.done[cur.id]?"btn gray":"btn ok";}
+function toggleDone(){if(!cur)return;if(st.done[cur.id])delete st.done[cur.id];else st.done[cur.id]=todayStr();persist();openQ(cur.id);}
+function toggleHide(){hidden=!hidden;openQ(cur.id);}
+function printQ(){
+  if(!cur)return;
+  document.getElementById("printArea").innerHTML=`
+   <div class="ppage"><h2>문제. ${esc(cur.q)}</h2><div class="small">${cur.own?"":"AI 작성 참고답안 · 공단 공식 모범답안 아님"}</div><div class="answer">${cur.html}</div></div>
+   <div class="ppage"><h2>필사지 — ${esc(cur.q)}</h2><div class="small">날짜: ____________  소요시간: ______분</div><div class="lined"></div></div>
+   <div class="ppage"><h2>필사지 (계속)</h2><div class="lined"></div></div>`;
+  window.print();
+}
+function openAdd(){document.getElementById("addModal").classList.add("show");}
+function closeAdd(){document.getElementById("addModal").classList.remove("show");}
+function saveAdd(){
+  const q=aQ.value.trim(), a=aA.value.trim();
+  if(!q||!a){alert("문제와 답안을 모두 입력하세요.");return;}
+  const id="c"+Date.now();
+  st.custom.push({id,round:aRound.value.trim(),type:aType.value,q,a,src:aSrc.value.trim()});
+  persist();["aRound","aQ","aA","aSrc"].forEach(i=>document.getElementById(i).value="");
+  closeAdd();openQ(id);
+}
+function delOwn(id){if(!confirm("이 문제를 삭제할까요? 필사 기록도 함께 지워집니다."))return;
+  st.custom=st.custom.filter(c=>c.id!==id);delete st.done[id];delete st.copy[id];persist();cur=null;goToday();renderList();}
+function exportData(){
+  const blob=new Blob([JSON.stringify(st,null,1)],{type:"application/json"});
+  const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="pe_copy_backup_"+todayStr()+".json";a.click();
+}
+function importData(e){
+  const f=e.target.files[0];if(!f)return;const r=new FileReader();
+  r.onload=()=>{try{const d=JSON.parse(r.result);if(!d.done||!d.copy)throw 0;st=Object.assign({done:{},copy:{},custom:[],start:todayStr()},d);persist();alert("불러오기 완료");goToday();renderList();}catch(x){alert("백업 파일 형식이 아닙니다.");}};
+  r.readAsText(f);e.target.value="";
+}
+renderList(); goToday();
+if(!cur){openQ(all()[0].id);}
+</script>
+</body>
+</html>
